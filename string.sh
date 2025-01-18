@@ -22,8 +22,9 @@
 # Written and maintained by Jan Emmanuel Samson
 #
 
-# import error codes
-source ./error_codes.sh
+PROJECT_ROOT=$(dirname $(realpath "$0"))
+
+source ${PROJECT_ROOT}/lib/errors.sh
 
 strlen() {
   # Computes the length of a string.
