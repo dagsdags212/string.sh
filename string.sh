@@ -74,6 +74,30 @@ capitalize() {
   echo "${firstChar}${remainingChars}" && return ${SUCCESS} || raise GenericError
 }
 
+reverse() {
+  # Returns a reversed copy of a string.
+  #
+  # Parameters:
+  #   str - an input string
+
+  local str=$1
+  for ((i = ${#str}; i >= 0; i--)); do
+    rev="${rev}${str:${i}:1}"
+  done
+  echo ${rev} && return ${SUCCESS} || raise GenericError
+}
+
+strip() {
+  # Removes all consecutive whitespace in a string.
+  #
+  # Parameters:
+  #   str - an input string
+
+  local str=$1
+
+  echo ${str} | xargs && return ${SUCCESS} || raise GenericError
+}
+
 prefix() {
   # Get the first n characters of a string.
   #
@@ -87,8 +111,7 @@ prefix() {
   if [[ "${n}" -gt "${#str}" ]]; then
     raise "IndexError" "string index out of range"
   fi
-  echo ${str:0:${n}}
-  return ${SUCCESS}
+  echo ${str:0:${n}} && return ${SUCCESS}
 }
 
 suffix() {
@@ -104,8 +127,7 @@ suffix() {
   if [[ "${n}" -gt "${#str}" ]]; then
     raise "IndexError" "string index out of range"
   fi
-  echo ${str:(-${n})}
-  return ${SUCCESS}
+  echo ${str:(-${n})} && return ${SUCCESS}
 }
 
 substr() {
@@ -128,8 +150,7 @@ substr() {
   elif [[ "${length}" -le 0 ]]; then
     raise "ValueError" "string length cannot be zero"
   fi
-  echo ${str:start:length}
-  return ${SUCCESS}
+  echo ${str:start:length} && return ${SUCCESS}
 }
 
 fuzzymatch() {
@@ -144,7 +165,7 @@ fuzzymatch() {
   local query=$1
   local pattern=$2
 
-  [[ "${query}" =~ ${pattern} ]] && echo ${query} || raise NoMatchError "pattern not found"
+  [[ "${query}" =~ ${pattern} ]] && echo ${query} || raise NoMatchError "pattern does not match ${query}"
 }
 
 exactmatch() {
