@@ -1,5 +1,3 @@
-echo "imported errors.sh submodule"
-
 declare -A ERRORS
 
 SUCCESS=0
@@ -19,8 +17,9 @@ raise() {
   local msg=$2
   if [[ "${err_type}" == GenericError ]]; then
     printf "%s: %s\n" "${err_type}" "an exception was raised" 1>&2
-    exit ${ERRORS[err_type]}
+    return ${ERRORS[err_type]}
+  else
+    printf "%s: %s\n" "${err_type}" "${msg}" 1>&2
+    return ${ERRORS[err_type]}
   fi
-  printf "%s: %s\n" "${err_type}" "${msg}" 1>&2
-  exit ${ERRORS[err_type]}
 }
